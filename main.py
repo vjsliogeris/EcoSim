@@ -2,7 +2,7 @@ import EcoSim
 
 playerlist = [["Alice", 0],["Bob", 1],["Charlie",2]]
 
-game = EcoSim.Game(playerlist)
+game = EcoSim.Game(playerlist, 4)
 #game.print_players()
 #game.print_readiness()
 
@@ -18,7 +18,8 @@ game.take_action(2, 0, 0, 2000, 55) #Quick buck, save
 #game.print_players()
 
 print("stepping")
-game.step()
+report, finished = game.step()
+print(report)
 
 print(game.get_status_text(0))
 print(game.get_status_text(1))

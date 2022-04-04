@@ -68,7 +68,10 @@ def sigma(x):
 '''Handles the game happening
 '''
 class Game:
-    def __init__(self, playerlist):
+    def __init__(self, playerlist, max_turns):
+        self.finished = False
+        self.turn_count = 0
+        self.max_turns = max_turns
         self.players = {}
         self.p_ready = {}
         for player, ID in playerlist:
@@ -206,7 +209,20 @@ class Game:
             report += "The upper class has shrunk.\n"
         else:
             report += "The upper class is unaffected.\n"
-        return report
+        self.turn_count += 1
+        if self.turn_count == self.max_turns:
+            self.finished = True
+            max_funds = 0
+            max_ID = None
+            for player in self.players.values():
+                report += "{0} finished the game with {1} in their bank. They had {2} quality and {3} production costs\n".format(player.name, player.funds, player.quality, player.prod_price)
+                if player.funds > max_funds:
+                    max_ID = player.ID
+                    max_funds = player.funds
+            winner = self.players[max_ID]
+            report += "{0} won with {1} in their account.\n".format(winner.name, winner.funds)
+
+        return report, self.finished
         
 
     def __str__(self):
